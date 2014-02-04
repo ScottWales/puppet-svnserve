@@ -19,7 +19,6 @@
 class svnserve (
   $user     = 'svn',
   $group    = 'svn',
-  $repohome = '/var/svn',
 ) {
 
   group {$group:
@@ -30,11 +29,5 @@ class svnserve (
     gid    => $group,
     system => true,
     shell  => '/sbin/nologin',
-  }
-
-  file {$repohome:
-    ensure => directory,
-    owner  => $user,
-    group  => $group,
   }
 }

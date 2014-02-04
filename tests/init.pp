@@ -19,5 +19,14 @@
 node default {
   include svnserve::svnstsw
 
-  svnserve::repo {'test':}
+  file {'/svn':
+    ensure => directory,
+  } ->
+  svnserve::repo {'/svn/test':}
+
+  svnserve::repo::hook {'test':
+    hook    => 'pre-commit',
+    repo    => '/svn/test',
+    content => 'echo $0',
+  }
 }

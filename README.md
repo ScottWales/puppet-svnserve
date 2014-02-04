@@ -29,6 +29,7 @@ Svnstsw is built from source, which requires the following packages:
 Additionally the following Puppet modules are used:
 
  - puppetlabs-vcsrepo
+ - puppetlabs-concat
 
 Usage
 -----
@@ -44,6 +45,12 @@ Install svnstsw:
 
 Add a subversion repository at '/svn/myrepo':
 
-    svnserve::repo { 'myrepo':
-        repohome => '/svn',
+    svnserve::repo { '/svn/myrepo': }
+
+Add a post-commit hook
+
+    svnserve::repo::hook { 'myrepo post commit',
+        repo    => '/svn/myrepo',
+        hook    => 'post-commit',
+        content => 'echo $0',
     }

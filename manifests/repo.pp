@@ -19,21 +19,32 @@
 # Serve up a svn repo over svn+ssh
 define svnserve::repo (
   $repo     = $title,
-  $repohome = $svnserve::repohome,
 ) {
   include svnserve
 
-  vcsrepo {"${repohome}/${repo}":
+  vcsrepo {$repo:
     ensure   => present,
     provider => svn,
     user     => $svnserve::user,
     group    => $svnserve::group,
-    require  => File[$repohome],
+    require  => [User[$svnserve::user],Group[$svnserve::group]],
   }
 
-  file {"${repohome}/${repo}":
+  file {$repo:
     recurse => true,
     mode    => 'g+rw',
-    require => Vcsrepo["${repohome}/${repo}"],
+    require => Vcsrepo[$repo],
   }
+
+  svnserve::repo::inithook {[
+    'pre-commit',
+    'post-commit',
+    'pre-revprop-change',
+    'post-revprop-change',
+    'start-commit',
+  ]:
+    repo    => $repo,
+    require => Vcsrepo[$repo],
+  }
+
 }

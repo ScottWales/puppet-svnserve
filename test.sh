@@ -19,12 +19,13 @@
 #  
 
 vagrant up
+vagrant provision
 
 mkdir .test
 vagrant ssh-config > .test/ssh-config
 export SVN_SSH="ssh -F .test/ssh-config"
 
-svn info svn+ssh://default/var/svn/test
+svn info svn+ssh://default/svn/test
 
 RC=$?
 

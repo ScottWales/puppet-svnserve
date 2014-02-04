@@ -20,3 +20,5 @@
 
 yum install --assumeyes subversion autoconf automake libtool apr-devel
 puppet module install --force puppetlabs-vcsrepo
+puppet module install --force puppetlabs-concat
+puppet module install --force puppetlabs-stdlib
