@@ -29,3 +29,21 @@ Svnstsw is built from source, which requires the following packages:
 Additionally the following Puppet modules are used:
 
  - puppetlabs-vcsrepo
+
+Usage
+-----
+
+Install svnstsw:
+
+    node default {
+
+        include svnserve::svnstsw
+
+        ...
+    }
+
+Add a subversion repository at '/svn/myrepo':
+
+    svnserve::repo { 'myrepo':
+        repohome => '/svn',
+    }
