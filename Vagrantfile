@@ -8,6 +8,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.box = "centos-6.4"
 
+    config.vm.provider :virtualbox do |vb, override|
+        override.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
+    end
+
     config.vm.provision :shell, path: "tests/setup.sh"
 
     config.vm.provision :puppet do |puppet|
