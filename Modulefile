@@ -1,0 +1,8 @@
+name         'ScottWales-svnserve'
+version      '0.0.1'
+summary      'svn+ssh Server'
+description  'Sets up a svnstsw server to provide access to repositories using the svn+ssh protocol'
+dependency   'puppetlabs/vcsrepo', '>=0.2'
+project_page 'https://github.com/ScottWales/puppet-svnserve'
+licence      'Apache v2'
+author       'Scott Wales'
