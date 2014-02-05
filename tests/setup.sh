@@ -19,6 +19,8 @@
 #  
 
 yum install --assumeyes subversion autoconf automake libtool apr-devel
-puppet module install --force puppetlabs-vcsrepo
-puppet module install --force puppetlabs-concat
-puppet module install --force puppetlabs-stdlib
+puppet module install puppetlabs-vcsrepo
+puppet module install puppetlabs-concat
+
+# Ignore puppet module failures
+exit 0

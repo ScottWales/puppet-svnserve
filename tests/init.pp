@@ -27,6 +27,6 @@ node default {
   svnserve::repo::hook {'test':
     hook    => 'pre-commit',
     repo    => '/svn/test',
-    content => 'echo $0',
+    content => 'id',
   }
 }
