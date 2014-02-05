@@ -26,10 +26,14 @@ vagrant ssh-config > .test/ssh-config
 export SVN_SSH="ssh -F .test/ssh-config"
 
 svn info svn+ssh://default/svn/test
+svn co svn+ssh://default/svn/test .test/repo
+head -c 8 /dev/urandom > .test/repo/random
+svn add .test/repo/random
+svn ci .test/repo -m test
 
 RC=$?
 
-rm -r .test
+rm -rf .test
 
 exit $RC
 
