@@ -1,2 +1,6 @@
 .vagrant
 .test
+.bundle
+.vendor
+.rspec
+Gemfile.lock
