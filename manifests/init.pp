@@ -19,15 +19,18 @@
 class svnserve (
   $user     = 'svn',
   $group    = 'svn',
+  $ensure   = present,
 ) {
 
-  group {$group:
-    ensure => present,
-  } ->
-  user {$user:
-    ensure => present,
-    gid    => $group,
-    system => true,
-    shell  => '/sbin/nologin',
+  if ensure == present {
+    group {$group:
+      ensure => present,
+    } ->
+    user {$user:
+      ensure => present,
+      gid    => $group,
+      system => true,
+      shell  => '/sbin/nologin',
+    }
   }
 }
