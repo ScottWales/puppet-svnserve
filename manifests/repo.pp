@@ -17,17 +17,28 @@
 #  limitations under the License.
 
 # Serve up a svn repo over svn+ssh
+# ================================
+#
+# Create a repository accessible at svn+ssh://localhost:svn/puppet-svnserve:
+#
+#     svnserve::repo {'/svn/puppet-svnserve':
+#     }
+
 define svnserve::repo (
-  $repo     = $title,
 ) {
   include svnserve
+
+  $repo  = $title
+
+  $user  = $svnserve::user
+  $group = $svnserve::group
 
   vcsrepo {$repo:
     ensure   => present,
     provider => svn,
-    user     => $svnserve::user,
-    group    => $svnserve::group,
-    require  => [User[$svnserve::user],Group[$svnserve::group]],
+    user     => $user,
+    group    => $group,
+    require  => [User[$user],Group[$group]],
   }
 
   file {$repo:

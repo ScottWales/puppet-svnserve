@@ -16,21 +16,49 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# Install & configure svnserve
+# ============================
+#
+# To use the default 'svn' user and group:
+#
+#     include svnserve
+#
+# To configure the 'svn' user and package separately:
+#
+#     class {'svnserve':
+#         setupuser    => false,
+#         setuppackage => false,
+#     }
+#
+
 class svnserve (
-  $user     = 'svn',
-  $group    = 'svn',
-  $ensure   = present,
+  # Details for the subversion repository owner
+  $user        = 'svn',
+  $group       = 'svn',
+
+  # Use Puppet to create the user?
+  $setupuser   = true,
+
+  # Install Subversion?
+  $setuppackage = true,
 ) {
 
-  if ensure == present {
+  validate_bool($setupuser)
+
+  if $setupuser {
     group {$group:
       ensure => present,
-    } ->
-    user {$user:
-      ensure => present,
-      gid    => $group,
-      system => true,
-      shell  => '/sbin/nologin',
     }
+    user {$user:
+      ensure  => present,
+      gid     => $group,
+      system  => true,
+      shell   => '/sbin/nologin',
+      require => Group[$group],
+    }
+  }
+
+  if $setuppackage {
+    package{'subversion':}
   }
 }

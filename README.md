@@ -54,3 +54,13 @@ Add a post-commit hook
         hook    => 'post-commit',
         content => 'echo $0',
     }
+
+Classes
+-------
+
+ - [svnserve](manifests/init.pp): Install Subversion & set repository owner
+ - [svnserve::repo](manifests/repo.pp): Create a repository to serve
+ - [svnserve::repo::hook](manifests/repo/hook.pp): Add a hook to the repository
+ - [svnserve::svnstsw](manifests/svnstsw.pp): Install wrapper for svn+ssh:// protocol
+
+See manifests for full argument lists

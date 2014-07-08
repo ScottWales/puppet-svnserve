@@ -16,6 +16,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+# Install the svnstsw wrapper program
+# ===================================
+#
+# Svnstsw wraps the svnserve command to allow users to work on the repository
+# without being given filesytem access
+#
+#    include svnserve::svnstsw
+#
+
 class svnserve::svnstsw (
 
 ) {
@@ -30,28 +39,28 @@ class svnserve::svnstsw (
     ensure   => present,
     source   => 'http://svn.apache.org/repos/asf/subversion/trunk/contrib/server-side/svnstsw',
     provider => svn,
+    notify   => Exec['autogen.sh svnstsw'],
   }
 
   exec {'autogen.sh svnstsw':
-    command   => '/tmp/svnstsw/autogen.sh',
-    subscribe => Vcsrepo['/tmp/svnstsw'],
-    creates   => '/tmp/svnstsw/configure',
+    command => '/tmp/svnstsw/autogen.sh',
+    creates => '/tmp/svnstsw/configure',
+    notify  => Exec['configure svnstsw'],
   }
 
   exec {'configure svnstsw':
-    command   => '/bin/bash configure',
-    path      => ['/bin','/usr/bin'],
-    cwd       => '/tmp/svnstsw',
-    subscribe => Exec['autogen.sh svnstsw'],
-    creates   => '/tmp/svnstsw/Makefile',
+    command => '/bin/bash configure',
+    path    => ['/bin','/usr/bin'],
+    cwd     => '/tmp/svnstsw',
+    creates => '/tmp/svnstsw/Makefile',
+    notify  => Exec['make svnstsw'],
   }
 
   exec {'make svnstsw':
-    command   => 'make install',
-    path      => ['/bin','/usr/bin'],
-    cwd       => '/tmp/svnstsw',
-    subscribe => Exec['configure svnstsw'],
-    creates   => '/usr/local/bin/svnstsw',
+    command => 'make install',
+    path    => ['/bin','/usr/bin'],
+    cwd     => '/tmp/svnstsw',
+    creates => '/usr/local/bin/svnstsw',
   }
 
   file {'/usr/local/bin/svnstsw':
