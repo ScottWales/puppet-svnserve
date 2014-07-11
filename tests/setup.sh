@@ -17,10 +17,20 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #  
+rpm -i http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
+yum install --assumeyes puppet
 
-yum install --assumeyes subversion autoconf automake libtool apr-devel
-puppet module install puppetlabs-vcsrepo
-puppet module install puppetlabs-concat
+# yum install --assumeyes subversion autoconf automake libtool apr-devel
+# puppet module install puppetlabs-vcsrepo
+# puppet module install puppetlabs-concat
+
+# Build the module
+cd /vagrant
+puppet module build
+
+# Install the module
+MODULE=$(ls -t /vagrant/pkg/*.tar.gz  | head -n 1)
+puppet module install "$MODULE"
 
 # Ignore puppet module failures
 exit 0

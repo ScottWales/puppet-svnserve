@@ -18,7 +18,7 @@
 #  limitations under the License.
 #  
 
-vagrant up
+vagrant up --no-provision --provider=docker
 vagrant provision
 
 mkdir .test
